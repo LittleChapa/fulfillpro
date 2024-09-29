@@ -2,7 +2,7 @@ import Splide from "@splidejs/splide";
 import { Notyf } from "notyf";
 import "@splidejs/splide/dist/css/splide.min.css";
 import "notyf/notyf.min.css";
-import { sendForm } from "../http/userApi";
+import { sendForm } from "../http/userAPI";
 
 const burger = document.querySelector("#burger");
 const burgerList = document.querySelector("#burger-list");
