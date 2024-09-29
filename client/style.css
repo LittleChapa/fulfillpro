@@ -1,0 +1,111 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: "Montserrat", sans-serif;
+    font-weight: normal;
+    scroll-behavior: smooth;
+  }
+
+  .title {
+    font-size: 32px;
+    font-weight: 600;
+    color: #2b2b2b;
+    text-align: center;
+    text-transform: uppercase;
+    width: 100%;
+    background-color: rgba(107, 133, 168, 0.1);
+    padding: 12px 15px;
+    margin-bottom: 50px;
+    @apply md:mb-7.5 md:text-3xl/tight sm:text-2xl/tight;
+  }
+
+  .container {
+    max-width: 1350px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+}
+
+@layer components {
+  .advantage-card {
+    @apply flex h-[250px] flex-col items-center gap-7.5 rounded-lg bg-blue px-1 pt-[50px] lg:h-[170px] lg:gap-4 lg:pt-[20px] md:mx-auto md:w-full;
+    > svg {
+      @apply h-[100px] w-auto lg:h-[80px];
+    }
+  }
+
+  .stage-card {
+    @apply relative flex h-[180px] items-center justify-center rounded-lg border-4 border-blue px-5 lg:h-[170px] lg:px-2 md:mx-auto md:w-full md:max-w-[480px] md:px-1 sm:h-auto sm:px-2.5 sm:py-7.5;
+  }
+
+  .stage-card::before {
+    @apply absolute left-1/2 top-0 flex size-15 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-blue bg-white text-4xl/tight text-blue sm:size-12 sm:text-[1.75rem]/tight;
+  }
+
+  .stage-service {
+    @apply flex flex-col items-center gap-4 rounded-lg bg-blue px-3 pb-2 pt-4 xl:gap-2 lg:gap-4 md:mx-auto md:w-full md:max-w-[480px];
+    > svg {
+      width: auto;
+      height: 74px;
+    }
+  }
+
+  .service {
+    @apply relative flex justify-between before:absolute before:bottom-0 before:left-0 before:w-full before:border-b before:border-dashed before:border-[#999] before:content-[''];
+    > span {
+      @apply relative bg-white text-lg/tight xs:text-base/tight;
+      &:first-child {
+        @apply md:content-end md:text-base/tight xs:text-sm/tight;
+      }
+    }
+  }
+
+  .checkbox {
+    @apply relative size-6 rounded bg-grey after:absolute after:left-2 after:top-0 after:block after:h-4 after:w-2 after:rotate-45 after:border after:border-l-0 after:border-t-0 after:border-black after:opacity-0 after:transition-opacity after:duration-300 after:ease-out after:content-[''] peer-checked/mp:after:opacity-100 xs:bg-white;
+  }
+}
+
+.noscroll {
+  overflow: hidden;
+}
+
+#burger-list {
+  > *.active {
+    @apply text-blue;
+  }
+  &.active {
+    transform: translateY(0);
+  }
+}
+
+#burger.active {
+  > * {
+    transform: scale(0);
+    transition: all ease 0.3s;
+  }
+  > *:first-child {
+    transform: translateY(14px) rotate(-45deg);
+  }
+  > *:last-child {
+    transform: translateY(-14px) rotate(45deg);
+  }
+}
+
+.splide__pagination {
+  bottom: -1.45em !important;
+}
+
+.splide__pagination__page.is-active {
+  background: #6b85a8 !important;
+}
+
+.splide__pagination__page {
+  width: 10px !important;
+  height: 10px !important;
+  margin: 3px 5px !important;
+}
