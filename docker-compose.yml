@@ -8,15 +8,31 @@ services:
       - '80:80'
       - '443:443'
     volumes:
-      - './nginx.conf:/etc/nginx/nginx.conf'
-      - '/etc/letsencrypt/live/fulfillpro.ru:/etc/letsencrypt/live/fulfillpro.ru' # Монтирование сертификатов
-      - '/etc/letsencrypt/options-ssl-nginx.conf:/etc/letsencrypt/options-ssl-nginx.conf' # Опционально
-      - '/etc/letsencrypt/ssl-dhparams.pem:/etc/letsencrypt/ssl-dhparams.pem' # Опционально
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./certbot/conf:/etc/nginx/ssl:ro
+      - ./certbot/www:/var/www/certbot
+
     depends_on:
       - backend
       - frontend
     networks:
       - dev
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do sleep 6h & wait $!; certbot renew; done;'"
+
+  certbot-init:
+    image: certbot/certbot
+    container_name: certbot-init
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: certbot certonly --webroot --webroot-path=/var/www/certbot --email daaavid943@gmail.com --agree-tos --no-eff-email -d fulfillpro.ru -d www.fulfillpro.ru
 
   backend:
     build: ./server
