@@ -96,6 +96,16 @@
   }
 }
 
+.loading {
+  border: 3px solid #ffffff;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  margin: 0 auto;
+  width: 25px;
+  height: 25px;
+  animation: spin 1s linear infinite;
+}
+
 .splide__pagination {
   bottom: -1.45em !important;
 }
@@ -108,4 +118,26 @@
   width: 10px !important;
   height: 10px !important;
   margin: 3px 5px !important;
+}
+
+.grecaptcha-badge {
+  display: none;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes logo {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }

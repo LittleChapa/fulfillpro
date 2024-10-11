@@ -30,7 +30,7 @@ const phoneFormTitle = document.querySelector("#phone-title");
 const marketFormTitle = document.querySelector("#market-title");
 
 let arraySections = [main, advantages, stages, services, feedback, contacts];
-
+let recaptchaInitialized = false;
 let arrayButtons = Array.from(burgerList.children);
 arrayButtons.unshift(logo);
 arrayButtons.splice(4, 0, buttonMain);
@@ -100,7 +100,7 @@ arrayButtons.forEach((item, index) => {
   });
 });
 
-for (let ev of ["input", "blur", "focus"]) {
+for (let ev of ["input", "blur", "focus", "click"]) {
   phoneForm.addEventListener(ev, validateNumber);
 }
 
@@ -120,6 +120,18 @@ buttonForm.addEventListener("click", (e) => {
       (marketFormTitle.style.color = "#bc5766");
     return notyf.error("Заполните все обязательные поля");
   }
+  grecaptcha.execute();
+});
+
+window.onSubmit = onSubmit;
+
+function onSubmit(token) {
+  const recaptchaResponse = token;
+
+  buttonForm.disabled = true;
+  const loading = document.createElement("div");
+  loading.classList.add("loading");
+
   let message = `<i>Заявка с сайта FULFILLPRO</i>\n\n`;
 
   let marketplaces = [];
@@ -133,24 +145,38 @@ buttonForm.addEventListener("click", (e) => {
     marketplaces.push("Озон");
   }
 
-  console.log(marketplaces);
-
   message += `<b>Имя:</b> ${nameForm.value}\n`;
   message += `<b>Номер телефона:</b> ${phoneForm.value}\n`;
   message += `<b>Маркетплейсы:</b> ${marketplaces.join(", ")}\n`;
   message += `<b>Комментарий:</b> ${messageForm.value ? messageForm.value : "пусто"}`;
-  console.log(message);
 
-  sendForm(message)
-    .then((data) => {
-      console.log(data);
-      notyf.success("Все успешно");
+  buttonForm.innerHTML = "";
+  buttonForm.appendChild(loading);
+
+  sendForm(message, recaptchaResponse)
+    .then(() => {
+      nameForm.value = "";
+      phoneForm.value = "";
+      messageForm.value = "";
+      yandexForm.checked = false;
+      wbForm.checked = false;
+      ozonForm.checked = false;
+      notyf.success("Заявка отправлена");
     })
-    .catch((e) => {
-      console.log(e);
-      notyf.error("Произошла ошибка");
+    .catch((error) => {
+      const { message } = error.response.data;
+      if (!message) {
+        notyf.error(e.message);
+        return;
+      }
+      notyf.error(message);
+    })
+    .finally(() => {
+      buttonForm.innerHTML = "Отправить заявку";
+      buttonForm.disabled = false;
     });
-});
+  grecaptcha.reset();
+}
 
 nameForm.addEventListener("input", (e) => {
   e.target.value.replace(/[0-9]/g, "");
@@ -176,7 +202,7 @@ function validateNumber(e) {
   let el = e.target,
     clearVal = el.dataset.phoneClear,
     pattern = el.dataset.phonePattern,
-    matrix_def = "+7 (___) ___-__-__",
+    matrix_def = "_ (___) ___-__-__",
     matrix = pattern ? pattern : matrix_def,
     i = 0,
     def = matrix.replace(/\D/g, ""),

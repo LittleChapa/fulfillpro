@@ -24,6 +24,24 @@ export default {
         15: "3.75rem",
         30: "7.5rem",
       },
+      keyframes: {
+        logoAnim: {
+          "0%": { transform: "rotate(0deg)" },
+          "50%": { transform: "rotate(360deg)" },
+          "100%": { transform: "rotate(720deg)" },
+        },
+        logoAnim2: {
+          "0%": { transform: "rotate(0deg)" },
+          "25%": { transform: "rotate(180deg)" },
+          "50%": { transform: "rotate(180deg)" },
+          "75%": { transform: "rotate(360deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
+      },
+      animation: {
+        "logo-anim": "logoAnim 1.1s ease-out",
+        "logo-anim-2": "logoAnim .9s ease-out .2s",
+      },
     },
   },
   plugins: [],

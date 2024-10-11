@@ -16,7 +16,7 @@
         <div
           class="flex w-full items-center justify-between bg-white md:absolute md:left-0 md:top-0 md:z-[5] md:border-b-2 md:border-[#BBBBBB] md:px-[15px] md:py-4"
         >
-          <div id="logo" class="flex cursor-pointer items-center gap-2">
+          <div id="logo" class="group flex cursor-pointer items-center gap-2">
             <svg
               class="block h-9 w-auto"
               width="258"
@@ -27,11 +27,13 @@
             >
               <rect width="257.208" height="277.238" rx="50" fill="white" />
               <path
+                class="group-hover:animate-logo-anim delay origin-center"
                 d="M190.244 150.087L83.5736 43.269C61.6677 21.3318 35 47.5611 35 69.4941L35 165.347C36.1429 194.341 59.6041 200.636 71.1919 200.159L166.91 200.159C199.292 200.159 200.721 160.578 190.244 150.087Z"
                 fill="#A61F33"
                 fill-opacity="0.75"
               />
               <path
+                class="group-hover:animate-logo-anim-2 origin-center"
                 d="M189.497 75.3782L87.5707 75.3782C52.4889 77.7486 59.6006 117.571 68.1336 126.579L71.452 129.894L181.438 238.935C192.341 249.839 222.208 231.824 222.208 212.861L222.208 104.771C222.208 90.5487 204.667 75.3782 189.497 75.3782Z"
                 fill="#2E588F"
                 fill-opacity="0.75"
@@ -958,7 +960,7 @@
             >
               Станьте нашим клиентом
             </h2>
-            <form class="flex flex-col gap-5">
+            <form class="flex flex-col gap-5" action="" method="post">
               <div class="flex flex-wrap justify-between gap-2.5">
                 <label
                   id="name-title"
@@ -982,7 +984,7 @@
                     class="max-w-[220px] rounded bg-grey p-2.5 text-xl/tight text-black outline-none lg:max-w-full md:text-lg/tight xs:bg-white"
                     type="tel"
                     id="phone"
-                    placeholder="+7 (___) ___-__-__"
+                    placeholder="_ (___) ___-__-__"
                     required
                   />
                 </label>
@@ -1056,14 +1058,21 @@
                   class="h-30 resize-none rounded bg-grey p-2.5 text-lg/5 text-black outline-none md:text-base/tight xs:bg-white"
                   name="message"
                   id="message"
+                  placeholder="Пожелания, @телеграм, и т.д."
                 ></textarea>
               </label>
-
+              <div
+                class="g-recaptcha"
+                data-sitekey="6LfuKFgqAAAAAGtBnJEQKgmiXYQAmUtGMaJKUceQ"
+                data-callback="onSubmit"
+                data-size="invisible"
+              ></div>
               <button
-                class="rounded border-2 border-solid border-blue bg-blue py-5 text-xl/tight text-white transition-colors duration-300 ease-out active:bg-white active:text-blue xs:border-white xs:bg-transparent [@media(any-hover:hover){&:hover}]:bg-white [@media(any-hover:hover){&:hover}]:text-blue"
+                type="submit"
+                class="relative -mt-5 rounded border-2 border-solid border-blue bg-blue py-5 text-xl/tight text-white transition-colors duration-300 ease-out active:bg-white active:text-blue xs:border-white xs:bg-transparent [@media(any-hover:hover){&:hover}]:bg-white [@media(any-hover:hover){&:hover}]:text-blue"
                 id="button"
               >
-                Заказать услугу
+                Отправить заявку
               </button>
             </form>
           </div>
@@ -1221,5 +1230,11 @@
       </div>
     </section>
     <script type="module" src="./scripts/main.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script
+      src="https://www.google.com/recaptcha/enterprise.js"
+      async
+      defer
+    ></script>
   </body>
 </html>

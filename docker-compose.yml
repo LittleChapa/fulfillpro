@@ -1,13 +1,27 @@
-version: '3'
+networks:
+  dev:
 
 services:
-  frontend:
-    build: ./client
+  nginx:
+    image: nginx:stable-alpine
     ports:
-      - 80:80
-    restart: always
+      - '443:443'
+    volumes:
+      - './nginx.conf:/etc/nginx/nginx.conf'
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - dev
+
   backend:
     build: ./server
-    ports:
-      - 3000:3000
     restart: always
+    networks:
+      - dev
+
+  frontend:
+    build: ./client
+    restart: always
+    networks:
+      - dev
