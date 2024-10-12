@@ -1,47 +1,13 @@
-networks:
-  dev:
+version: '3'
 
 services:
-  nginx:
-    image: nginx:stable-alpine
-    ports:
-      - '80:80'
-      - '443:443'
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./certbot/conf:/etc/nginx/ssl:ro
-      - ./certbot/www:/var/www/certbot
-
-    depends_on:
-      - backend
-      - frontend
-    networks:
-      - dev
-
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
-    volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do sleep 6h & wait $!; certbot renew; done;'"
-
-  certbot-init:
-    image: certbot/certbot
-    container_name: certbot-init
-    volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    entrypoint: certbot certonly --webroot --webroot-path=/var/www/certbot --email daaavid943@gmail.com --agree-tos --no-eff-email -d fulfillpro.ru -d www.fulfillpro.ru
-
-  backend:
-    build: ./server
-    restart: always
-    networks:
-      - dev
-
   frontend:
     build: ./client
+    ports:
+      - 80:80
     restart: always
-    networks:
-      - dev
+  backend:
+    build: ./server
+    ports:
+      - 3000:3000
+    restart: always
