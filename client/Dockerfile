@@ -12,7 +12,7 @@ RUN npm run build
 
 FROM nginx:stable-alpine
 
-COPY ../certs /etc/nginx/certs
+COPY certs /etc/nginx/certs
 
 COPY --from=build /usr/src/app/dist /usr/share/nginx/html
 
