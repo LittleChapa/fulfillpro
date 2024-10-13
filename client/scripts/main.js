@@ -128,6 +128,8 @@ window.onSubmit = onSubmit;
 function onSubmit(token) {
   const recaptchaResponse = token;
 
+  console.log(token);
+
   buttonForm.disabled = true;
   const loading = document.createElement("div");
   loading.classList.add("loading");
@@ -165,6 +167,7 @@ function onSubmit(token) {
     })
     .catch((error) => {
       const { message } = error.response.data;
+      console.log(error);
       if (!message) {
         notyf.error(e.message);
         return;
