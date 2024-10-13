@@ -120,7 +120,11 @@ buttonForm.addEventListener("click", (e) => {
       (marketFormTitle.style.color = "#bc5766");
     return notyf.error("Заполните все обязательные поля");
   }
+  console.log("отправляем");
+
   grecaptcha.execute();
+
+  console.log("отправлено");
 });
 
 window.onSubmit = onSubmit;
